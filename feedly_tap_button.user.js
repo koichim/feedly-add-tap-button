@@ -6,8 +6,8 @@
 // @require 　　 https://code.jquery.com/jquery-2.0.0.min.js
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @date          2019-09-04
-// @version       0.0.7
+// @date          2019-09-06
+// @version       0.0.8
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -132,46 +132,33 @@
 
     }
 
-    var dock_expand_func = function(){
-        console.log("dock_expand_func fired");
-        $(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only").triggerHandler('click');
-    }
-    var move_done = false;
     function modify_leftnavdock() {
-//        console.log($("#feedlyChrome__leftnav-dock-wrapper　> button.LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only"));
-//       console.log($(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only").get(0).onclick);
-//        console.log($(".LeftnavDock__button LeftnavDock__peek.tertiary.button-icon-only").get(0).onclick);
-        if (!move_done &&
-            $(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only").length == 1 &&
-           $(".Leftnav__dock.LeftnavDock").length == 1) {
-            var dock_expand_button = $(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only");
-            dock_expand_button.appendTo($(".Leftnav__dock.LeftnavDock"));
-             var margin_top = Number(dock_expand_button.css('margin-top').replace('px', ''));
-             var margin_bottom = Number(dock_expand_button.css('margin-bottom').replace('px', ''));
-             var padding_top = Number(dock_expand_button.css('padding-top').replace('px', ''));
+        var dock_expand_button = $(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only");
+        var parent_dock = $(".Leftnav__dock.LeftnavDock");
+        if (dock_expand_button.length == 1 &&
+           parent_dock.length == 1) {
+            if (dock_expand_button.next().length == 0) {
+                dock_expand_button.appendTo(parent_dock);
+            }
+            var parent_dock_height = parent_dock.height();
+            var other_button_hieghts = 0;
+            parent_dock.children().each(function (i, a_node){
+                if (a_node.className != dock_expand_button[0].className){
+                    other_button_hieghts += $(a_node).outerHeight();
+                }
+            });
+
+            dock_expand_button.offset().top = parent_dock_height - other_button_hieghts;
             dock_expand_button.css('margin-top', 0);
             dock_expand_button.css('margin-bottom', 0);
-            padding_top += margin_top + margin_bottom;
+            var padding_top = parent_dock_height - other_button_hieghts
+            - Number(dock_expand_button.css('padding-bottom').replace('px', ''))
+            - Number(dock_expand_button.css('border-top-width').replace('px', ''))
+            - Number(dock_expand_button.css('border-bottom-width').replace('px', ''));
+
             dock_expand_button.css('padding-top', padding_top);
-            move_done = true;
         }
         return;
-        if ($(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only").length == 1 &&
-           $(".Leftnav__dock.LeftnavDock").length == 1) {
-            var events = $._data($(".Leftnav__dock.LeftnavDock").get(0)).events;
-            var added = false;
-            if (events && events.click){
-                $.each(events.click,function(){
-                    if (this.handler == dock_expand_func) {
-                        added = true;
-                    }
-                });
-            }
-            if (!added) {
-                $(".Leftnav__dock.LeftnavDock").on("click", dock_expand_func);
-                console.log("dock_expand_func is added to whole leftnavDock");
-            }
-        }
     }
 
     var interval_id = setInterval(
