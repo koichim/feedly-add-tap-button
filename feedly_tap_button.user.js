@@ -6,8 +6,8 @@
 // @require 　　 https://code.jquery.com/jquery-2.0.0.min.js
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @date          2019-09-06
-// @version       0.0.8
+// @date          2019-09-19
+// @version       0.0.9
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -137,7 +137,10 @@
         var parent_dock = $(".Leftnav__dock.LeftnavDock");
         if (dock_expand_button.length == 1 &&
            parent_dock.length == 1) {
-            if (dock_expand_button.next().length == 0) {
+            if (dock_expand_button.parent() != parent_dock) {
+                dock_expand_button.appendTo(parent_dock);
+            }
+            if (dock_expand_button.next().length != 0) {
                 dock_expand_button.appendTo(parent_dock);
             }
             var parent_dock_height = parent_dock.height();
