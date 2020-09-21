@@ -6,8 +6,8 @@
 // @require 　　 https://code.jquery.com/jquery-2.0.0.min.js
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @date          2019-09-19
-// @version       0.0.9
+// @date          2020-09-21
+// @version       0.0.10
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -45,17 +45,17 @@
     function add_tap_buttons() {
         var body_nodes = document.getElementsByTagName('body');
         if (!body_nodes) {
-            GM_log("failed to get body element");
+            console.log("failed to get body element");
             return;
         }
         if (body_nodes.length != 1) {
-            GM_log("body.length="+body_nodes.length);
+            console.log("body.length="+body_nodes.length);
             return;
         }
         var body_node = body_nodes[0];
         var tap_buttons = document.createElement('div');
         if (!tap_buttons) {
-            GM_log("failed to create tap_buttons");
+            console.log("failed to create tap_buttons");
             return;
         }
         tap_buttons.id = TAP_BUTTON_ID;
@@ -72,7 +72,7 @@
 
         var k_button = document.createElement('div');
         if (!k_button) {
-            GM_log("can not create k_button");
+            console.log("can not create k_button");
             return;
         }
         k_button.innerHTML = "k";
@@ -80,40 +80,51 @@
 //        var k_event = document.createEvent("KeyboardEvent");
 //        k_event.initKeyEvent("keydown", true, true, null, false, false, false, false, 75, 0);
         k_button.onclick = function(){
+            console.log("k.onclick. mimic p&o pressed");
 //            var k_event = document.createEvent("KeyboardEvent");
 //            k_event.initKeyEvent("keypress", true, true, null, false, false, false, false, 0, 107);
 //            document.getElementsByTagName('body')[0].dispatchEvent(k_event);
-            var k_event = new KeyboardEvent('keypress', {bubbles:true});
-            Object.defineProperty(k_event, 'charCode', {get:function(){return this.charCodeVal;}});
-            k_event.charCodeVal = 107;
-            document.body.dispatchEvent(k_event);
+
+            let key_event = new KeyboardEvent('keypress', {bubbles:true});
+            Object.defineProperty(key_event, 'charCode', {get:function(){return this.charCodeVal;}});
+//            key_event.charCodeVal = 107; // k
+            key_event.charCodeVal = 112; // p
+            document.body.dispatchEvent(key_event);
+            key_event.charCodeVal = 111; // o
+            document.body.dispatchEvent(key_event);
         };
 
         var j_button = document.createElement('div');
         if (!j_button) {
-            GM_log("can not create j_button");
+            console.log("can not create j_button");
             return;
         }
         j_button.innerHTML = "j";
         j_button.style.background = "#6666FF";
         j_button.onclick = function(){
+            console.log("j.onclick. mimic n&o pressed");
 //            var j_event = document.createEvent("KeyboardEvent");
 //            j_event.initKeyEvent("keypress", true, true, null, false, false, false, false, 0, 106);
 //            document.getElementsByTagName('body')[0].dispatchEvent(j_event);
-            var j_event = new KeyboardEvent('keypress', {bubbles:true});
-            Object.defineProperty(j_event, 'charCode', {get:function(){return this.charCodeVal;}});
-            j_event.charCodeVal = 106;
-            document.body.dispatchEvent(j_event);
+
+            let key_event = new KeyboardEvent('keypress', {bubbles:true});
+            Object.defineProperty(key_event, 'charCode', {get:function(){return this.charCodeVal;}});
+//            key_event.charCodeVal = 106; // j
+            key_event.charCodeVal = 110; // n
+            document.body.dispatchEvent(key_event);
+            key_event.charCodeVal = 111; // o
+            document.body.dispatchEvent(key_event);
         };
 
         var n_button = document.createElement('div');
         if (!n_button) {
-            GM_log("can not create n_button");
+            console.log("can not create n_button");
             return;
         }
         n_button.innerHTML = "n";
         n_button.style.background = "#F3F781";
         n_button.onclick = function(){
+            console.log("n.onclick. mimic n pressed");
 //            var n_event = document.createEvent("KeyboardEvent");
 //            n_event.initKeyEvent("keypress", true, true, null, false, false, false, false, 0, 110);
 //            document.getElementsByTagName('body')[0].dispatchEvent(n_event);
