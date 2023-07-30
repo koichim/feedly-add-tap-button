@@ -6,8 +6,8 @@
 // @require 　　 https://code.jquery.com/jquery-3.4.1.min.js
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @date          2021-01-02
-// @version       0.0.11
+// @date          2023-07-30
+// @version       0.0.12
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -147,8 +147,11 @@
     }
 
     function modify_leftnavdock() {
-        var dock_expand_button = $(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only");
-        var parent_dock = $(".Leftnav__dock.LeftnavDock");
+        console.log("enter modify_leftnavdock");
+      //  var dock_expand_button = $(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only");
+      // var parent_dock = $(".Leftnav__dock.LeftnavDock");
+        var dock_expand_button = $('[aria-label="Show Sidebar"], [aria-label="Hide Sidebar"]');
+        var parent_dock = $(".LeftnavDock");
         if (dock_expand_button.length == 1 &&
            parent_dock.length == 1) {
             if (dock_expand_button.parent() != parent_dock) {
