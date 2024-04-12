@@ -3,11 +3,10 @@
 // @author         Koichi Masuda - koichi@masuda.sppd.ne.jp
 // @namespace      http://masuda.sppd.ne.jp/misc/feedly/
 // @description    Add tap buttons
-// @require 　　 https://code.jquery.com/jquery-3.4.1.min.js
+// @require 　　 https://code.jquery.com/jquery-3.7.1.min.js#sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @date          2023-07-30
-// @version       0.0.12
+// @version       0.0.13
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -21,6 +20,7 @@
         { class_name: 'transform-original', actual_src: 'data-asset-url' },
         { class_name: 'transform-ku-xlarge', actual_src: 'data-asset-url' }
     ];
+
 
     // will be used...
     function getPref(key, defaultValue) {
@@ -150,7 +150,7 @@
         console.log("enter modify_leftnavdock");
       //  var dock_expand_button = $(".LeftnavDock__button.LeftnavDock__peek.tertiary.button-icon-only");
       // var parent_dock = $(".Leftnav__dock.LeftnavDock");
-        var dock_expand_button = $('[aria-label="Show Sidebar"], [aria-label="Hide Sidebar"]');
+        var dock_expand_button = $('[aria-label="Pin sidebar"], [aria-label="Hide sidebar"]');
         var parent_dock = $(".LeftnavDock");
         if (dock_expand_button.length == 1 &&
            parent_dock.length == 1) {
@@ -177,6 +177,14 @@
             - Number(dock_expand_button.css('border-bottom-width').replace('px', ''));
 
             dock_expand_button.css('padding-top', padding_top);
+
+            dock_expand_button[0].addEventListener('mouseout', function(event){
+                event.stopImmediatePropagation();  // not work....
+            }, true);
+        }
+        let tooltip=$("#tooltipContainer");
+        if (tooltip.length==1){
+            tooltip.hide();
         }
         return;
     }
