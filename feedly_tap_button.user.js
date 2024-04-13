@@ -6,7 +6,7 @@
 // @require 　　 https://code.jquery.com/jquery-3.7.1.min.js#sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @version       0.0.13
+// @version       0.0.14
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -14,6 +14,7 @@
     var CHECK_INTERVAL = 1000; // msec
     var REFRESH_ELEMENT_ID = ":l";
     var TAP_BUTTON_ID = "masuda_tap_button";
+    var disabled_auto_nav = false;
     var lazy_image_conversion = [
         { class_name: '', actual_src: 'data-lazy-src' },
         { class_name: 'lazy', actual_src: 'data-original' },
@@ -178,13 +179,27 @@
 
             dock_expand_button.css('padding-top', padding_top);
 
-            dock_expand_button[0].addEventListener('mouseout', function(event){
-                event.stopImmediatePropagation();  // not work....
-            }, true);
+//            dock_expand_button[0].addEventListener('mouseout', function(event){
+//                event.stopImmediatePropagation();  // not work....
+//            }, true);
         }
-        let tooltip=$("#tooltipContainer");
-        if (tooltip.length==1){
+
+        // hide tooltip
+        let tooltip = $("#tooltipContainer");
+        if (tooltip.length == 1){
             tooltip.hide();
+        }
+
+        // disable mouseover (mouseout) peek/close nav
+        let feedlyChrome = $("#feedlyChrome");
+        if (!disabled_auto_nav && feedlyChrome.length == 1){
+            feedlyChrome[0].addEventListener('mouseout', function(event){
+                event.stopImmediatePropagation();
+            }, true);
+            feedlyChrome[0].addEventListener('mouseover', function(event){
+                event.stopImmediatePropagation();
+            }, true);
+            disabled_auto_nav = true;
         }
         return;
     }
