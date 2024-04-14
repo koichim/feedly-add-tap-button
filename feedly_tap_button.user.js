@@ -6,7 +6,7 @@
 // @require 　　 https://code.jquery.com/jquery-3.7.1.min.js#sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @version       0.0.14
+// @version       0.0.15
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -190,13 +190,16 @@
             tooltip.hide();
         }
 
-        // disable mouseover (mouseout) peek/close nav
+        // disable pin by click
         let feedlyChrome = $("#feedlyChrome");
         if (!disabled_auto_nav && feedlyChrome.length == 1){
-            feedlyChrome[0].addEventListener('mouseout', function(event){
-                event.stopImmediatePropagation();
-            }, true);
-            feedlyChrome[0].addEventListener('mouseover', function(event){
+            // feedlyChrome[0].addEventListener('mouseout', function(event){
+            //     event.stopImmediatePropagation();
+            // }, true);
+            // feedlyChrome[0].addEventListener('mouseover', function(event){
+            //     event.stopImmediatePropagation();
+            // }, true);
+            feedlyChrome[0].addEventListener('click', function(event){
                 event.stopImmediatePropagation();
             }, true);
             disabled_auto_nav = true;
