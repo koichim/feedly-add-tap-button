@@ -6,7 +6,7 @@
 // @require 　　 https://code.jquery.com/jquery-3.7.1.min.js#sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @version       0.0.16
+// @version       0.0.17
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -192,16 +192,21 @@
                 }, true);
                 disabled_auto_nav = true;
             }
-            // trigger(mouseout) does not work...
-            // let leftnav_List = $(".LeftnavList__list");
-            // if (leftnav_List.length == 1 && !trigger_mouseover_on_select){
-            //     leftnav_List[0].addEventListener('click', function(event){
-            //         //parent_dock.trigger("mouseout");
-            //         let e = MouseEvent('mouseout');
-            //         parent_dock[0].dispatchEvent(e);
-            //     });
-            //     trigger_mouseover_on_select = true;
-            // }
+
+            let leftnav_List = $(".LeftnavList__list");
+            if (leftnav_List.length == 1 && !trigger_mouseover_on_select){
+                leftnav_List[0].addEventListener('click', function(event){
+                    // trigger(mouseout) does not work...
+                    //parent_dock.trigger("mouseout");
+                    //let e = MouseEvent('mouseout');
+                    //parent_dock[0].dispatchEvent(e);
+                    let leftnavlist_div = $(".LeftnavList--peeked");
+                    if (leftnavlist_div.length == 1){
+                        leftnavlist_div.css("left", "-"+leftnavlist_div.css("width"));
+                    }
+                });
+                trigger_mouseover_on_select = true;
+            }
         }
 
         // hide tooltip
