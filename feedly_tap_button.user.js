@@ -6,7 +6,7 @@
 // @require 　　 https://code.jquery.com/jquery-3.7.1.min.js#sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @version       0.0.15
+// @version       0.0.16
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -15,6 +15,7 @@
     var REFRESH_ELEMENT_ID = ":l";
     var TAP_BUTTON_ID = "masuda_tap_button";
     var disabled_auto_nav = false;
+    var trigger_mouseover_on_select = false;
     var lazy_image_conversion = [
         { class_name: '', actual_src: 'data-lazy-src' },
         { class_name: 'lazy', actual_src: 'data-original' },
@@ -179,9 +180,28 @@
 
             dock_expand_button.css('padding-top', padding_top);
 
-//            dock_expand_button[0].addEventListener('mouseout', function(event){
-//                event.stopImmediatePropagation();  // not work....
-//            }, true);
+            if (!disabled_auto_nav){
+                // feedlyChrome[0].addEventListener('mouseout', function(event){
+                //     event.stopImmediatePropagation();
+                // }, true);
+                // feedlyChrome[0].addEventListener('mouseover', function(event){
+                //     event.stopImmediatePropagation();
+                // }, true);
+                dock_expand_button[0].addEventListener('click', function(event){
+                    event.stopImmediatePropagation();
+                }, true);
+                disabled_auto_nav = true;
+            }
+            // trigger(mouseout) does not work...
+            // let leftnav_List = $(".LeftnavList__list");
+            // if (leftnav_List.length == 1 && !trigger_mouseover_on_select){
+            //     leftnav_List[0].addEventListener('click', function(event){
+            //         //parent_dock.trigger("mouseout");
+            //         let e = MouseEvent('mouseout');
+            //         parent_dock[0].dispatchEvent(e);
+            //     });
+            //     trigger_mouseover_on_select = true;
+            // }
         }
 
         // hide tooltip
@@ -191,19 +211,6 @@
         }
 
         // disable pin by click
-        let feedlyChrome = $("#feedlyChrome");
-        if (!disabled_auto_nav && feedlyChrome.length == 1){
-            // feedlyChrome[0].addEventListener('mouseout', function(event){
-            //     event.stopImmediatePropagation();
-            // }, true);
-            // feedlyChrome[0].addEventListener('mouseover', function(event){
-            //     event.stopImmediatePropagation();
-            // }, true);
-            feedlyChrome[0].addEventListener('click', function(event){
-                event.stopImmediatePropagation();
-            }, true);
-            disabled_auto_nav = true;
-        }
         return;
     }
 
