@@ -6,7 +6,7 @@
 // @require 　　 https://code.jquery.com/jquery-3.7.1.min.js#sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=
 // @include        http://feedly.com/*
 // @include        https://feedly.com/*
-// @version       0.0.17
+// @version       0.0.18
 // ==/UserScript==
 (function() {
     var DEFAULT_MAX_NUM_OF_TABS = 20; // it was 40;
@@ -200,9 +200,10 @@
                     //parent_dock.trigger("mouseout");
                     //let e = MouseEvent('mouseout');
                     //parent_dock[0].dispatchEvent(e);
-                    let leftnavlist_div = $(".LeftnavList--peeked");
+                    let leftnavlist_div = $(".("LeftnavList--peeked"););
                     if (leftnavlist_div.length == 1){
                         leftnavlist_div.css("left", "-"+leftnavlist_div.css("width"));
+                        leftnavlist_div.removeClass("LeftnavList--peeked");
                     }
                 });
                 trigger_mouseover_on_select = true;
